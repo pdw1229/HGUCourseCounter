@@ -2,6 +2,7 @@ package edu.handong.analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -55,12 +56,28 @@ public class HGUCoursePatternAnalyzer {
 	private HashMap<String,Student> loadStudentCourseRecords(ArrayList<String> lines) {
 		
 		// TODO: Implement this method
+		HashMap<String,Student> stuinfo = new HashMap<String,Student>();
+		for(String info: lines) {
+			String[] array = info.split(",");
+			Course cour =  new Course(info);
+			if(stuinfo.containsKey(array[0])) {
+				stuinfo.get(array[0]).addCourse(cour);
+			}
+			else {
+				Student stu = new Student(array[0]);
+				stu.addCourse(cour);
+				stuinfo.put(array[0],stu);
+				
+			}
+				
+		}
 		
-		return null; // do not forget to return a proper variable.
+		return stuinfo;// do not forget to return a proper variable.
 	}
 
 	/**
-	 * This method generate the number of courses taken by a student in each semester. The result file look like this:
+	 * This method generate the number of courses taken by a student in each semester. 
+	 * The result file look like this:
 	 * StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester
 	 * 0001,14,1,9
      * 0001,14,2,8
@@ -75,7 +92,22 @@ public class HGUCoursePatternAnalyzer {
 	private ArrayList<String> countNumberOfCoursesTakenInEachSemester(Map<String, Student> sortedStudents) {
 		
 		// TODO: Implement this method
+		ArrayList<String> result = new ArrayList<String>();
+		Iterator<String> keys = sortedStudents.keySet().iterator();
+		while(keys.hasNext()){
+			String key = keys.next();
+			int num = sortedStudents.get(key).getSemestersByYearAndSemester().size();
+			for(int i = 1; i <= num; i++) {
+				StringBuilder line = new StringBuilder(key);
+				line.append("," + num);
+				line.append("," + i);
+				line.append("," + sortedStudents.get(key).getNumCourseInNthSemester(i));
+				result.add(line.toString());
+			}
+		}
 		
-		return null; // do not forget to return a proper variable.
+
+		
+		return result; // do not forget to return a proper variable.
 	}
 }
