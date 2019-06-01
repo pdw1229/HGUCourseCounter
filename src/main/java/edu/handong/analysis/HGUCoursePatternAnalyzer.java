@@ -2,7 +2,6 @@ package edu.handong.analysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -57,22 +56,18 @@ public class HGUCoursePatternAnalyzer {
 		
 		// TODO: Implement this method
 		HashMap<String,Student> stuinfo = new HashMap<String,Student>();
-		for(String info: lines) {
-			String[] array = info.split(",");
-			Course cour =  new Course(info);
-			if(stuinfo.containsKey(array[0])) {
-				stuinfo.get(array[0]).addCourse(cour);
+		
+		for(int i = 0; i<lines.size();i++) {
+			Course cour =  new Course(lines.get(i));
+			if(!stuinfo.containsKey(cour.getStudentId())) {
+				Student newStudent = new Student(cour.getStudentId());
+				stuinfo.put(cour.getStudentId(), newStudent);
 			}
-			else {
-				Student stu = new Student(array[0]);
-				stu.addCourse(cour);
-				stuinfo.put(array[0],stu);
-				
-			}
+			stuinfo.get(cour.getStudentId()).addCourse(cour);
 				
 		}
 		
-		return stuinfo;// do not forget to return a proper variable.
+		return stuinfo; // do not forget to return a proper variable.
 	}
 
 	/**
@@ -93,16 +88,11 @@ public class HGUCoursePatternAnalyzer {
 		
 		// TODO: Implement this method
 		ArrayList<String> result = new ArrayList<String>();
-		Iterator<String> keys = sortedStudents.keySet().iterator();
-		while(keys.hasNext()){
-			String key = keys.next();
-			int num = sortedStudents.get(key).getSemestersByYearAndSemester().size();
-			for(int i = 1; i <= num; i++) {
-				StringBuilder line = new StringBuilder(key);
-				line.append("," + num);
-				line.append("," + i);
-				line.append("," + sortedStudents.get(key).getNumCourseInNthSemester(i));
-				result.add(line.toString());
+		
+		for(String key : sortedStudents.keySet()) {
+			int total = sortedStudents.get(key).getSemestersByYearAndSemester().size();
+			for(int i = 1; i<= total; i++) {
+				result.add(key+","+total+","+Integer.toString(i)+","+Integer.toString(sortedStudents.get(key).getNumCourseInNthSemester(i)));
 			}
 		}
 		

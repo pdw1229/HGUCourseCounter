@@ -8,7 +8,7 @@ public class Utils {
 	
 	public static ArrayList<String> getLines(String file,boolean removeHeader)
 	{
-		ArrayList<String> aline =new ArrayList<String>();
+		ArrayList<String> list =new ArrayList<String>();
 		try {
 			
 			Scanner inputStream =new Scanner(new File(file));
@@ -23,14 +23,14 @@ public class Utils {
             		}
             		else
             		{
-            			aline.add(line);
+            			list.add(line);
             		}	
             }
             inputStream.close();
 		} catch(FileNotFoundException e) {
 			System.out.println("The file path does not exist. Please check your CLI argument!");
 		}
-		return aline;
+		return list;
 	}
 	
 	public static void writeAFile(ArrayList<String>lines,String targetFileName)
@@ -43,10 +43,11 @@ public class Utils {
 			System.out.println("The file path does not exist. Please check your CLI argument!");
 			System.exit(0);
 		}
-		int i;
-		for(i=0;i<lines.size();i++)
+		outputStream.println("StudentID, TotalNumberOfSemestersRegistered, Semester, NumCoursesTakenInTheSemester");
+		for(String line : lines)
 		{
-			outputStream.println(lines.get(i));
+			outputStream.println(line);
 		}
+	outputStream.close();
 	}
 }
