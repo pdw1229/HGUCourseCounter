@@ -41,6 +41,10 @@ public class Student {
       
    return numCourseInNthSemester;
    }
+   
+   public ArrayList<Course> getCoursesTaken(){
+	   return coursesTaken;
+   }
 public String getStudentId() {
 	return studentId;
 }

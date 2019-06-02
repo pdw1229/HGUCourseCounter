@@ -50,4 +50,21 @@ public class Utils {
 		}
 	outputStream.close();
 	}
+	public static void writeAFile2(ArrayList<String>lines,String targetFileName)
+	{
+		PrintWriter outputStream = null;
+		
+		try {
+			outputStream = new PrintWriter(targetFileName);
+		} catch(FileNotFoundException e) {
+			System.out.println("The file path does not exist. Please check your CLI argument!");
+			System.exit(0);
+		}
+		outputStream.println("Year, Semester, CourseCode, CourseName, TotalStudents, StudentsTaken, Rate");
+		for(String line : lines)
+		{
+			outputStream.println(line);
+		}
+	outputStream.close();
+	}
 }
